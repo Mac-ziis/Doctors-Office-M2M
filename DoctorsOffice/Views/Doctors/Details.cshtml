@@ -1,3 +1,45 @@
 @{
   Layout = "_Layout";
 }
+
+@model DoctorsOffice.Models.Doctor;
+@using DoctorsOffice.Models;
+@using System.Collections.Generic;
+
+<h2>Doctor Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
+
+@if(@Model.Patients.Count == 0)
+{
+  <p>This doctor does not have any patients</p>
+}
+else
+{
+  <h4>Patients:</h4>
+  <ul>
+  @foreach(Patient patient in Model.Patients)
+  {
+    string tags = "";
+    @if(patient.JoinEntities.Count == 0)
+    {
+      tags = "This patient does not have any tags.";
+    }
+    else
+    {
+      List<string> tagList = new List<string>();
+      @foreach(PatientTag join in patient.JoinEntities)
+      {
+        tagList.Add(join.Tag.Title);
+      }
+      tags = String.Join(", ", tagList);
+    }
+    <li>@patient.Description | Tags: @tags</li>
+  }
+  </ul>
+}
+
+<p>@Html.ActionLink("Back to doctors", "Index")</p>
+<p>@Html.ActionLink("Edit doctor", "Edit", new { id = Model.DoctorId })</p>
+<p>@Html.ActionLink("Delete doctor", "Delete", new { id = Model.DoctorId })</p>
+<p>@Html.ActionLink("Add new patient", "Create", "Patients")</p>
