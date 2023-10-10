@@ -7,27 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DoctorsOffice.Controllers
 {
-  public class TagsController : Controller
+  public class SpecialtiesController : Controller
   {
     private readonly DoctorsOfficeContext _db;
 
-    public TagsController(DoctorsOfficeContext db)
+    public SpecialtiesController(DoctorsOfficeContext db)
     {
       _db = db;
     }
 
     public ActionResult Index()
     {
-      return View(_db.Tags.ToList());
+      return View(_db.Specialties.ToList());
     }
 
     public ActionResult Details(int id)
     {
-      Tag thisTag = _db.Tags
-          .Include(tag => tag.JoinEntities)
-          .ThenInclude(join => join.Patient)
-          .FirstOrDefault(tag => tag.TagId == id);
-      return View(thisTag);
+      Specialty thisSpecialty = _db.Specialties
+          .Include(specialty => specialty.JoinEntities)
+          .ThenInclude(join => join.Doctor)
+          .FirstOrDefault(specialty => specialty.SpecialtyId == id);
+      return View(thisSpecialty);
     }
 
     public ActionResult Create()
@@ -36,17 +36,17 @@ namespace DoctorsOffice.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Tag tag)
+    public ActionResult Create(Specialty specialty)
     {
-      _db.Tags.Add(tag);
+      _db.Specialties.Add(specialty);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    public ActionResult AddPatient(int id)
+    public ActionResult AddDoctor(int id)
     {
-      Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
-      ViewBag.PatientId = new SelectList(_db.Patients, "PatientId", "Description");
+      Specialty thisSpecialty = _db.Specialties.FirstOrDefault(specialties => specialties.SpecialtyId == id);
+      ViewBag.DoctorId = new SelectList(_db.Patients, "PatientId", "Description");
       return View(thisTag);
     }
 

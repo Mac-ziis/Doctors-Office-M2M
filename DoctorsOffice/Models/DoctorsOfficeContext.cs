@@ -6,8 +6,8 @@ namespace DoctorsOffice.Models
   {
     public DbSet<Doctor> Doctors { get; set; }
     public DbSet<Patient> Patients { get; set; }
-    public DbSet<Tag> Tags { get; set; }
-    public DbSet<PatientTag> PatientTags { get; set; }
+    public DbSet<Specialty> Specialties { get; set; }
+    public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
 
     public DoctorsOfficeContext(DbContextOptions options) : base(options) { }
   }

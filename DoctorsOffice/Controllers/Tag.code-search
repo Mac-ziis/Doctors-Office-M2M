@@ -1,0 +1,216 @@
+# Query: Tag
+# ContextLines: 1
+
+97 results - 5 files
+
+DoctorsOffice/Controllers/DoctorsController.cs:
+  40                                  .ThenInclude(patient => patient.JoinEntities)
+  41                                  .ThenInclude(patient => patient.JoinEntities)
+  42:                                 .ThenInclude(join => join.Specialty)
+  42                                  .FirstOrDefault(doctor => doctor.DoctorId == id);
+  43                                  .FirstOrDefault(doctor => doctor.DoctorId == id);
+
+DoctorsOffice/Controllers/PatientsController.cs:
+   52            .Include(patient => patient.JoinEntities)
+   53            .Include(patient => patient.JoinEntities)
+   54:           .ThenInclude(join => join.Specialty)
+
+   54            .FirstOrDefault(patient => patient.PatientId == id);
+   55            .FirstOrDefault(patient => patient.PatientId == id);
+
+   87  
+   88  
+   89:     public ActionResult AddTag(int id)
+
+   89      {
+   90        Patient thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
+   91        Patient thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
+   92:       ViewBag.TagId = new SelectList(_db.Tags, "TagId", "Title");
+
+   92        return View(thisPatient);
+   93        return View(thisPatient);
+
+   95      [HttpPost]
+   96      [HttpPost]
+   97:     public ActionResult AddTag(Patient patient, int tagId)
+
+   97      {
+   98        #nullable enable
+   99        #nullable enable
+  100:       PatientTag? joinEntity = _db.PatientTags.FirstOrDefault(join => (join.TagId == tagId && join.PatientId == patient.PatientId));
+
+  100        #nullable disable
+  101        #nullable disable
+  102:       if (joinEntity == null && tagId != 0)
+
+  102        {
+  103        {
+  104:         _db.PatientTags.Add(new PatientTag() { TagId = tagId, PatientId = patient.PatientId });
+
+  104          _db.SaveChanges();
+  105          _db.SaveChanges();
+
+  111      {
+  112      {
+  113:       PatientTag joinEntry = _db.PatientTags.FirstOrDefault(entry => entry.PatientTagId == joinId);
+  114:       _db.PatientTags.Remove(joinEntry);
+  114        _db.SaveChanges();
+  115        _db.SaveChanges();
+
+DoctorsOffice/Controllers/SpecialtiesController.cs:
+   27            .ThenInclude(join => join.Doctor)
+   28            .ThenInclude(join => join.Doctor)
+   29:           .FirstOrDefault(specialty => specialty.TagId == id);
+   30:       return View(thisTag);
+
+   30      }
+   31      }
+
+   37      [HttpPost]
+   38      [HttpPost]
+   39:     public ActionResult Create(Tag tag)
+
+   39      {
+   40      {
+   41:       _db.Tags.Add(tag);
+
+   41        _db.SaveChanges();
+   42        _db.SaveChanges();
+
+   46      {
+   47      {
+   48:       Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
+
+   48        ViewBag.PatientId = new SelectList(_db.Patients, "PatientId", "Description");
+   49        ViewBag.PatientId = new SelectList(_db.Patients, "PatientId", "Description");
+   50:       return View(thisTag);
+
+   50      }
+   51      }
+   52      [HttpPost]
+   53      [HttpPost]
+   54:     public ActionResult AddItem(Tag tag, int patientId)
+
+   54      {
+   55        #nullable enable
+   56        #nullable enable
+   57:       PatientTag? joinEntity = _db.PatientTags.FirstOrDefault(join => (join.PatientId == patientId && join.TagId == tag.TagId));
+
+   57        #nullable disable
+   58        #nullable disable
+   59        {
+   60        {
+   61:         _db.PatientTags.Add(new PatientTag() { PatientId = patientId, TagId = tag.TagId });
+
+   61          _db.SaveChanges();
+   62        }
+   63        }
+   64:       return RedirectToAction("Details", new { id = tag.TagId });
+
+   64      }
+   65      }
+
+   67      {
+   68      {
+   69:       Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
+   70:       return View(thisTag);
+
+   70      }
+   71      }
+   72      [HttpPost]
+   73      [HttpPost]
+   74:     public ActionResult Edit(Tag tag)
+
+   74      {
+   75      {
+   76:       _db.Tags.Update(tag);
+
+   76        _db.SaveChanges();
+   77        _db.SaveChanges();
+
+   81      {
+   82      {
+   83:       Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
+   84:       return View(thisTag);
+
+   84      }
+   85      }
+
+   88      {
+   89      {
+   90:       Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
+   91:       _db.Tags.Remove(thisTag);
+
+   91        _db.SaveChanges();
+   92        _db.SaveChanges();
+
+   97      {
+   98      {
+   99:       PatientTag joinEntry = _db.PatientTags.FirstOrDefault(entry => entry.PatientTagId == joinId);
+  100:       _db.PatientTags.Remove(joinEntry);
+  100        _db.SaveChanges();
+  101        _db.SaveChanges();
+
+DoctorsOffice/Views/Doctors/Details.cshtml:
+  21    {
+  22    {
+  23:     string tags = "";
+
+  23      @if(patient.JoinEntities.Count == 0)
+  24      {
+  25      {
+  26:       tags = "This patient does not have any tags.";
+
+  26      }
+  27      }
+  28      {
+  29      {
+  30:       List<string> tagList = new List<string>();
+  31:       @foreach(PatientTag join in patient.JoinEntities)
+
+  31        {
+  32        {
+  33:         tagList.Add(join.Tag.Title);
+
+  33        }
+  34        }
+  35:       tags = String.Join(", ", tagList);
+
+  35      }
+  36      }
+  37:     <li>@patient.Description | Tags: @tags</li>
+  37    }
+  38    }
+
+DoctorsOffice/Views/Patients/Details.cshtml:
+  14  {
+  15  {
+  16:   <p>This patient does not have any tags yet!</p>
+
+  16  }
+  17  }
+  18  {
+  19  {
+  20:   <h4>This patient has the following tags:</h4>
+
+  20    <ul>
+  21    <ul>
+  22:     @foreach(PatientTag join in Model.JoinEntities)
+
+  22      {
+  23      {
+  24:       <li>Tag: @join.Tag.Title</li>
+
+  24        @using (Html.BeginForm("DeleteJoin", "Patients"))
+  25        {
+  26        {
+  27:         @Html.Hidden("joinId", @join.PatientTagId)
+
+  27          <input type="submit" value="Delete"/>
+  28          <input type="submit" value="Delete"/>
+
+  34  <p>@Html.ActionLink("Edit Patient or Doctor", "Edit", new { id = Model.PatientId })</p>
+  35  <p>@Html.ActionLink("Edit Patient or Doctor", "Edit", new { id = Model.PatientId })</p>
+  36: <p>@Html.ActionLink("Add a Tag", "AddTag", new { id = Model.PatientId })</p>
+  36  <p>@Html.ActionLink("Delete Item", "Delete", new { id = Model.PatientId })</p>
+  37  <p>@Html.ActionLink("Delete Item", "Delete", new { id = Model.PatientId })</p>
