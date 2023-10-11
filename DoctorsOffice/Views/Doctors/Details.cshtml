@@ -20,21 +20,7 @@ else
   <ul>
   @foreach(Patient patient in Model.Patients)
   {
-    string tags = "";
-    @if(patient.JoinEntities.Count == 0)
-    {
-      tags = "This patient does not have any tags.";
-    }
-    else
-    {
-      List<string> tagList = new List<string>();
-      @foreach(PatientTag join in patient.JoinEntities)
-      {
-        tagList.Add(join.Tag.Title);
-      }
-      tags = String.Join(", ", tagList);
-    }
-    <li>@patient.Description | Tags: @tags</li>
+    <li>@Html.ActionLink($"{patient.Name}", "Details", "Patients")</li>
   }
   </ul>
 }

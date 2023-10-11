@@ -46,49 +46,49 @@ namespace DoctorsOffice.Controllers
     public ActionResult AddDoctor(int id)
     {
       Specialty thisSpecialty = _db.Specialties.FirstOrDefault(specialties => specialties.SpecialtyId == id);
-      ViewBag.DoctorId = new SelectList(_db.Patients, "PatientId", "Description");
-      return View(thisTag);
+      ViewBag.DoctorId = new SelectList(_db.Doctors, "DoctorId", "Name");
+      return View(thisSpecialty);
     }
 
     [HttpPost]
-    public ActionResult AddItem(Tag tag, int patientId)
+    public ActionResult AddDoctor(Specialty specialty, int doctorId)
     {
       #nullable enable
-      PatientTag? joinEntity = _db.PatientTags.FirstOrDefault(join => (join.PatientId == patientId && join.TagId == tag.TagId));
+      DoctorSpecialty? joinEntity = _db.DoctorSpecialties.FirstOrDefault(join => (join.DoctorId == doctorId && join.SpecialtyId == specialty.SpecialtyId));
       #nullable disable
-      if (joinEntity == null && patientId != 0)
+      if (joinEntity == null && doctorId != 0)
       {
-        _db.PatientTags.Add(new PatientTag() { PatientId = patientId, TagId = tag.TagId });
+        _db.DoctorSpecialties.Add(new DoctorSpecialty() { DoctorId = doctorId, SpecialtyId = specialty.SpecialtyId });
         _db.SaveChanges();
       }
-      return RedirectToAction("Details", new { id = tag.TagId });
+      return RedirectToAction("Details", new { id = specialty.SpecialtyId });
     }
 
     public ActionResult Edit(int id)
     {
-      Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
-      return View(thisTag);
+      Specialty thisSpecialty = _db.Specialties.FirstOrDefault(specialties => specialties.SpecialtyId == id);
+      return View(thisSpecialty);
     }
 
     [HttpPost]
-    public ActionResult Edit(Tag tag)
+    public ActionResult Edit(Specialty specialty)
     {
-      _db.Tags.Update(tag);
+      _db.Specialties.Update(specialty);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Delete(int id)
     {
-      Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
-      return View(thisTag);
+      Specialty thisSpecialty = _db.Specialties.FirstOrDefault(specialties => specialties.SpecialtyId == id);
+      return View(thisSpecialty);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      Tag thisTag = _db.Tags.FirstOrDefault(tags => tags.TagId == id);
-      _db.Tags.Remove(thisTag);
+      Specialty thisSpecialty = _db.Specialties.FirstOrDefault(specialties => specialties.SpecialtyId == id);
+      _db.Specialties.Remove(thisSpecialty);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
@@ -96,8 +96,8 @@ namespace DoctorsOffice.Controllers
     [HttpPost]
     public ActionResult DeleteJoin(int joinId)
     {
-      PatientTag joinEntry = _db.PatientTags.FirstOrDefault(entry => entry.PatientTagId == joinId);
-      _db.PatientTags.Remove(joinEntry);
+      DoctorSpecialty joinEntry = _db.DoctorSpecialties.FirstOrDefault(entry => entry.DoctorSpecialtyId == joinId);
+      _db.DoctorSpecialties.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }

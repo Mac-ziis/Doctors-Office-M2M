@@ -37,9 +37,9 @@ namespace DoctorsOffice.Controllers
     public ActionResult Details(int id)
     {
       Doctor thisDoctor = _db.Doctors
-                                .Include(cat => cat.Patients)
+                                .Include(doctor => doctor.Patients)
                                 .ThenInclude(patient => patient.JoinEntities)
-                                .ThenInclude(join => join.Tag)
+                                .ThenInclude(join => join.Specialty)
                                 .FirstOrDefault(doctor => doctor.DoctorId == id);
       return View(thisDoctor);
     }
@@ -72,5 +72,36 @@ namespace DoctorsOffice.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    // public ActionResult AddSpecialty(int id)
+    // {
+    //   Doctor thisDoctor = _db.Doctors.FirstOrDefault(doctors => doctors.DoctorId == id);
+    //   ViewBag.SpecialtyId = new SelectList(_db.Specialties, "SpecialtyId", "Title");
+    //   return View(thisDoctor);
+    // }
+
+    // [HttpPost]
+    // public ActionResult AddSpecialty(Doctor doctor, int specialtyId)
+    // {
+    //   #nullable enable
+    //   DoctorSpecialty? joinEntity = _db.DoctorSpecialties.FirstOrDefault(join => (join.SpecialtyId == specialtyId && join.DoctorId == doctor.DoctorId));
+    //   #nullable disable
+    //   if (joinEntity == null && specialtyId != 0)
+    //   {
+    //     _db.DoctorSpecialties.Add(new DoctorSpecialty() { SpecialtyId = specialtyId, DoctorId = doctor.DoctorId });
+    //     _db.SaveChanges();
+    //   }
+    //   // might need to change
+    //   return RedirectToAction("Doctors", new { id = doctor.DoctorId });
+    // }   
+
+    // [HttpPost]
+    // public ActionResult DeleteJoin(int joinId)
+    // {
+    //   DoctorSpecialty joinEntry = _db.DoctorSpecialties.FirstOrDefault(entry => entry.DoctorSpecialtyId == joinId);
+    //   _db.DoctorSpecialties.Remove(joinEntry);
+    //   _db.SaveChanges();
+    //   return RedirectToAction("Index");
+    // } 
   }
 }
