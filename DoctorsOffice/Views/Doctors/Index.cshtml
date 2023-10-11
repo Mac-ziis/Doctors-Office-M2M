@@ -14,13 +14,15 @@
 {
   <h3>No doctors have been added yet!</h3>
 } 
-
+else
+{
 <ul>
   @foreach(Doctor doctor in Model)
   {
     <li>@Html.ActionLink($"{doctor.Name}", "Details", new { id = doctor.DoctorId })</li>
   }
 </ul>
+}
 
 <p>@Html.ActionLink("Add new doctor", "Create")</p>
 <p>@Html.ActionLink("Add new patient", "Create", "Patients")</p>
