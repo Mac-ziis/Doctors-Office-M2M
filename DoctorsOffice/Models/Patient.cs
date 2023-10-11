@@ -9,5 +9,6 @@ namespace DoctorsOffice.Models
     public int PatientId { get; set; }
     public int DoctorId { get; set; }
     public Doctor Doctor { get; set; }
+    public List<DoctorPatient> JoinEntities { get; }
   }
 }

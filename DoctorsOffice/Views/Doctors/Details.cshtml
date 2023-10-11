@@ -10,6 +10,26 @@
 <hr />
 <h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
 
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This doctor does not have any specialties</p>
+}
+else
+{
+  <h4>This Doctor has the following specialties:</h4>
+  <ul>
+    @foreach(DoctorSpecialty join in Model.JoinEntities)
+    {
+      <li>Specialty: @join.Specialty.Title</li>
+      @using (Html.BeginForm("DeleteJoin", "Doctors"))
+      {
+        @Html.Hidden("joinId", @join.DoctorSpecialtyId)
+        <input type="submit" value="Delete"/>
+      }
+    }
+  </ul>
+}
+
 @if(@Model.Patients.Count == 0)
 {
   <p>This doctor does not have any patients</p>

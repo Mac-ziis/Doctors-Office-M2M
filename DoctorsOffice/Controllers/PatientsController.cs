@@ -51,7 +51,7 @@ namespace DoctorsOffice.Controllers
       Patient thisPatient = _db.Patients
           .Include(patient => patient.Doctor)
           .Include(patient => patient.JoinEntities)
-          .ThenInclude(join => join.Tag)
+          // .ThenInclude(join => join.Specialty)
           .FirstOrDefault(patient => patient.PatientId == id);
       return View(thisPatient);
     }
@@ -85,35 +85,5 @@ namespace DoctorsOffice.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
-    // public ActionResult AddTag(int id)
-    // {
-    //   Patient thisPatient = _db.Patients.FirstOrDefault(patients => patients.PatientId == id);
-    //   ViewBag.TagId = new SelectList(_db.Tags, "TagId", "Title");
-    //   return View(thisPatient);
-    // }
-
-    // [HttpPost]
-    // public ActionResult AddTag(Patient patient, int tagId)
-    // {
-    //   #nullable enable
-    //   PatientTag? joinEntity = _db.PatientTags.FirstOrDefault(join => (join.TagId == tagId && join.PatientId == patient.PatientId));
-    //   #nullable disable
-    //   if (joinEntity == null && tagId != 0)
-    //   {
-    //     _db.PatientTags.Add(new PatientTag() { TagId = tagId, PatientId = patient.PatientId });
-    //     _db.SaveChanges();
-    //   }
-    //   return RedirectToAction("Doctors", new { id = patient.PatientId });
-    // }   
-
-    // [HttpPost]
-    // public ActionResult DeleteJoin(int joinId)
-    // {
-    //   PatientTag joinEntry = _db.PatientTags.FirstOrDefault(entry => entry.PatientTagId == joinId);
-    //   _db.PatientTags.Remove(joinEntry);
-    //   _db.SaveChanges();
-    //   return RedirectToAction("Index");
-    // } 
   }
 }
