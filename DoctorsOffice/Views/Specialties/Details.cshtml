@@ -11,7 +11,7 @@
 
 @if(@Model.JoinEntities.Count == 0)
 {
-  <p>This spexialty does not belong to any doctors</p>
+  <p>This specialty does not belong to any doctors</p>
 }
 else
 {
@@ -30,6 +30,6 @@ else
 }
 
 <p>@Html.ActionLink("Back to list", "Index")</p>
-<p>@Html.ActionLink("Add a Patient", "AddPatient", new { id = Model.SpecialtyId })</p>
 <p>@Html.ActionLink("Edit Specialty", "Edit", new { id = Model.SpecialtyId })</p>
 <p>@Html.ActionLink("Delete Specialty", "Delete", new { id = Model.SpecialtyId })</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>

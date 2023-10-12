@@ -48,4 +48,6 @@ else
 <p>@Html.ActionLink("Back to doctors", "Index")</p>
 <p>@Html.ActionLink("Edit doctor", "Edit", new { id = Model.DoctorId })</p>
 <p>@Html.ActionLink("Delete doctor", "Delete", new { id = Model.DoctorId })</p>
-<p>@Html.ActionLink("Add new patient", "Create", "Patients")</p>
+<p>@Html.ActionLink("Add a specialty", "AddSpecialty", new { id = Model.DoctorId })</p>
+<p>@Html.ActionLink("Add a patient", "AddPatient", new { id = Model.DoctorId })</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>

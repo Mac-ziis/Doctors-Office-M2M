@@ -92,8 +92,8 @@ namespace DoctorsOffice.Controllers
         _db.DoctorSpecialties.Add(new DoctorSpecialty() { SpecialtyId = specialtyId, DoctorId = doctor.DoctorId });
         _db.SaveChanges();
       }
-      // might need to change
-      return RedirectToAction("Doctors", new { id = doctor.DoctorId });
+      
+      return RedirectToAction("Details", new { id = doctor.DoctorId });
     }   
 
     [HttpPost]

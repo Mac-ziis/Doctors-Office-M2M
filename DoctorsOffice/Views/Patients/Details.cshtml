@@ -13,6 +13,7 @@
 
 
 <p>@Html.ActionLink("Back to list", "Index")</p>
-<p>@Html.ActionLink("Edit Patient or Doctor", "Edit", new { id = Model.PatientId })</p>
-<p>@Html.ActionLink("Add a Specialty", "AddSpecialty", new { id = Model.DoctorId })</p>
+<p>@Html.ActionLink("Edit Patient", "Edit", new { id = Model.PatientId })</p>
+<p>@Html.ActionLink("Add a doctor", "AddDoctor", new { id = Model.PatientId })</p>
 <p>@Html.ActionLink("Delete Item", "Delete", new { id = Model.PatientId })</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>
