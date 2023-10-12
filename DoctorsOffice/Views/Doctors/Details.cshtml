@@ -30,18 +30,23 @@ else
   </ul>
 }
 
-@if(@Model.Patients.Count == 0)
+@if(@Model.JoinEntities.Count == 0)
 {
   <p>This doctor does not have any patients</p>
 }
 else
 {
-  <h4>Patients:</h4>
+  <h4>This Doctor has the following patients:</h4>
   <ul>
-  @foreach(Patient patient in Model.Patients)
-  {
-    <li>@Html.ActionLink($"{patient.Name}", "Details", "Patients")</li>
-  }
+    @foreach(DoctorPatient join in Model.JoinEntities2)
+    {
+      <li>Patient: @join.Patient.Name</li>
+      @using (Html.BeginForm("DeleteJoin", "Doctors"))
+      {
+        @Html.Hidden("joinId", @join.DoctorPatientId)
+        <input type="submit" value="Delete"/>
+      }
+    }
   </ul>
 }
 
