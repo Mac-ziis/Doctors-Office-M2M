@@ -5,11 +5,10 @@
 @using DoctorsOffice.Models
 @model DoctorsOffice.Models.Patient
 
-<h2>Patient Details</h2>
+<h2>Patient Details:</h2>
 <hr />
 <h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3> 
 <h4>@Html.DisplayNameFor(model => model.BirthDate): @Html.DisplayFor(model => model.BirthDate)</h4>
-<h3>@Html.DisplayNameFor(model => model.Doctor): @Html.DisplayFor(model => model.Doctor.Name)</h3>
 
 
 <p>@Html.ActionLink("Back to list", "Index")</p>

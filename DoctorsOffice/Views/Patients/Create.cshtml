@@ -6,7 +6,6 @@
 
     <h4>Add a new patient</h4>
 
-    <p>@Html.ValidationMessageFor(model => model.DoctorId, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p>
     <p>@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p>
 
     @using (Html.BeginForm())
@@ -16,9 +15,6 @@
 
       @Html.LabelFor(model => model.BirthDate)
       @Html.TextBoxFor(model => model.BirthDate)
-
-      @Html.LabelFor(model => model.Doctor)
-      @Html.DropDownList("DoctorId")
 
       <input type="submit" value="Add new patient" class="btn btn-primary" />
     }
